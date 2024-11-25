@@ -4,10 +4,11 @@ import { generateContent } from "../server-functions/generateContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useUser } from "@clerk/clerk-react";
-import { dark_theme } from "../config/theme";
+import useTheme from "../config/useTheme";
 import { cardShadows } from "../utils/shadows";
 
 function BookListGenerateModal({ isOpened, close, bookId, setIsGeneratingBook }) {
+  const [dark_theme] = useTheme();
   const queryClient = useQueryClient();
   const {
     user: { id },
@@ -49,7 +50,7 @@ function BookListGenerateModal({ isOpened, close, bookId, setIsGeneratingBook })
         body: {
           padding: "1.5rem",
           paddingBottom: "1rem",
-          background: colorScheme === "dark" ? dark_theme.app_bg_dark_color : "white",
+          background: colorScheme !== "light" ? dark_theme.app_bg_dark_color : "white",
           paddingRight: "1.5rem",
           paddingLeft: "1.5rem",
         },
@@ -62,28 +63,28 @@ function BookListGenerateModal({ isOpened, close, bookId, setIsGeneratingBook })
     >
       <Group gap={"xs"} wrap="nowrap">
         <ArrowCircleUp
-          fill={colorScheme === "dark" ? dark_theme.secondary_text_color : "black"}
+          fill={colorScheme !== "light" ? dark_theme.secondary_text_color : "black"}
           size={42}
-          weight={colorScheme === "dark" ? "fill" : "light"}
+          weight={colorScheme !== "light" ? "fill" : "light"}
         />
-        <Title order={4} fw={500} c={colorScheme === "dark" ? dark_theme.main_text_color : "dimmed"}>
+        <Title order={4} fw={500} c={colorScheme !== "light" ? dark_theme.main_text_color : "dimmed"}>
           Generate More Content?
         </Title>
       </Group>
       <Divider my={"sm"} />
 
-      <Text fz={"sm"} c={colorScheme === "dark" ? dark_theme.secondary_text_color : "dimmed"}>
+      <Text fz={"sm"} c={colorScheme !== "light" ? dark_theme.secondary_text_color : "dimmed"}>
         ──Generate 5 blogs from this book?
       </Text>
-      <Text fz={"sm"} c={colorScheme === "dark" ? dark_theme.secondary_text_color : "dimmed"}>
+      <Text fz={"sm"} c={colorScheme !== "light" ? dark_theme.secondary_text_color : "dimmed"}>
         ──Generate 5 blogs from this book? ──Takes upto 5-10 minutes based on the size of the book
       </Text>
       <Group gap={"sm"} justify="flex-end" mt="md" mb="xs">
         <Button
           onClick={close}
           variant="transparent"
-          c={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.dark[9]}
-          color={colorScheme === "dark" ? dark_theme.card_bg_dark_color : "black"}
+          c={colorScheme !== "light" ? dark_theme.secondary_text_color : theme.colors.dark[9]}
+          color={colorScheme !== "light" ? dark_theme.card_bg_dark_color : "black"}
           size="md"
         >
           Cancel
@@ -96,8 +97,8 @@ function BookListGenerateModal({ isOpened, close, bookId, setIsGeneratingBook })
           }}
           style={{ boxShadow: cardShadows.md }}
           variant="light"
-          color={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "black"}
-          c={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.dark[9]}
+          color={colorScheme !== "light" ? dark_theme.nav_link_dark_color : "black"}
+          c={colorScheme !== "light" ? dark_theme.secondary_text_color : theme.colors.dark[9]}
           size="sm"
         >
           Generate

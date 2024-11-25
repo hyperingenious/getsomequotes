@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import styles from "./BottomBar.module.css";
 import { House, FileArrowUp, UploadSimple } from "@phosphor-icons/react";
 import { usePathname, useRouter } from "next/navigation";
-import { dark_theme } from "../config/theme";
+import useTheme from "../config/useTheme";
 import { ScrollArea, Stack, useComputedColorScheme, useMantineTheme } from "@mantine/core";
 import { useResizeObserver, useToggle } from "@mantine/hooks";
 import { fetchBook } from "@/appwrite/fetchBook";
@@ -19,6 +19,7 @@ const BottomBar = () => {
   const [ref] = useResizeObserver();
   const theme = useMantineTheme();
   const router = useRouter();
+  const [dark_theme] = useTheme();
 
   const {
     user: { id },
@@ -36,7 +37,7 @@ const BottomBar = () => {
 
   // Memoize colors and navigationOptions to avoid recalculations
   const iconColor = useMemo(
-    () => (colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[9]),
+    () => (colorScheme !== "light" ? dark_theme.main_text_color : theme.colors.gray[9]),
     [colorScheme, theme.colors.gray]
   );
 
@@ -80,14 +81,14 @@ const BottomBar = () => {
       <div
         style={{
           maxHeight: "300px",
-          background: colorScheme === "dark" ? dark_theme.nav_link_dark_color : "white",
+          background: colorScheme !== "light" ? dark_theme.nav_link_dark_color : "white",
           padding: "8px",
         }}
         className={styles.nav_parent}
       >
         <ScrollArea
           ref={ref}
-          bg={colorScheme === "dark" ? "rgb(11, 9, 28)" : theme.colors.gray[3]}
+          bg={colorScheme !== "light" ? dark_theme.ultra_special_dark : theme.colors.gray[3]}
           scrollbarSize={2}
           h={isExpanded ? 300 : 0}
           style={{

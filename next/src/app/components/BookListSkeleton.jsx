@@ -1,19 +1,15 @@
-import {
-  Group,
-  Skeleton,
-  Stack,
-  useComputedColorScheme,
-  useMantineTheme,
-} from "@mantine/core";
+import { Group, Skeleton, Stack, useComputedColorScheme, useMantineTheme } from "@mantine/core";
+import useTheme from "../config/useTheme";
 
 function BookListSkeleton() {
   const theme = useMantineTheme();
+  const [dark_theme] = useTheme();
   const colorScheme = useComputedColorScheme();
   return (
     <Group maw={480} miw={300} m={"md"} w={"100%"} gap={"xs"}>
       {Array.from({ length: 20 }).map((_, index) => (
         <Group
-          bg={colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[1]}
+          bg={colorScheme !== "light" ? dark_theme.nav_link_dark_color : theme.colors.gray[1]}
           w={"100%"}
           key={index}
           height={78}

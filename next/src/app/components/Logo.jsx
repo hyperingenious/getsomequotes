@@ -176,7 +176,7 @@ function Logo() {
   const colorScheme = useComputedColorScheme();
   return (
     <>
-      {colorScheme === "dark" && <DarkLogo />}
+      {colorScheme !== "light" && <DarkLogo />}
       {colorScheme === "light" && <LightLogo />}
     </>
   );

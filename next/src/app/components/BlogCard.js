@@ -15,6 +15,7 @@ import { cardShadows } from "../utils/shadows";
 import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { DM_Sans, Afacad_Flux } from "next/font/google";
+import useTheme from "../config/useTheme";
 
 // Fonts optimized for used weights
 const dm_sans = DM_Sans({
@@ -63,6 +64,7 @@ function BlogCard({ blog }) {
   const theme = useMantineTheme();
   const colorScheme = useComputedColorScheme();
   const isSmallScreen = useMediaQuery("(max-width: 480px)");
+  const [dark_theme] = useTheme();
 
   // Random image state, computed once on mount
   const [randomImage, setRandomImage] = useState("");
@@ -83,8 +85,8 @@ function BlogCard({ blog }) {
   const content = useMemo(() => removeMarkdown(blog.blog_markdown), [blog.blog_markdown]);
 
   // Pre-memoize styles
-  const cardBackground = colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[0];
-  const textColor = colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9];
+  const cardBackground = colorScheme !== "light" ? dark_theme.nav_link_dark_color : theme.colors.gray[0];
+  const textColor = colorScheme !== "light" ? dark_theme.main_text_color : theme.colors.gray[9];
 
   return (
     <Link href={`/blog/${blog.$id}`} style={{ textDecoration: "none" }}>
@@ -113,7 +115,7 @@ function BlogCard({ blog }) {
                 variant="light"
                 className={afacad_flux.className}
                 size={isSmallScreen ? "xs" : "sm"}
-                color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+                color={colorScheme !== "light" ? dark_theme.main_text_color : theme.colors.gray[6]}
                 style={{ boxShadow: cardShadows.xs }}
               >
                 {blog?.books?.book_name || "Unknown"}
@@ -122,7 +124,7 @@ function BlogCard({ blog }) {
                 miw={200}
                 size="xs"
                 weight={600}
-                color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+                color={colorScheme !== "light" ? dark_theme.secondary_text_color : theme.colors.gray[6]}
                 className={dm_sans.className}
               >
                 {blog.books?.author || "Unknown"}
@@ -135,12 +137,12 @@ function BlogCard({ blog }) {
               size={isSmallScreen ? "18px" : "20px"}
               style={{ lineHeight: 1.1 }}
               mb="xs"
-              color={textColor}
+              c={textColor}
             >
               {title}
             </Title>
             <Text
-              color={colorScheme === "dark" ? "rgb(182, 141, 133)" : theme.colors.gray[5]}
+              color={colorScheme !== "light" ? dark_theme.secondary_text_color : theme.colors.gray[5]}
               weight={500}
               lineClamp={2}
               size="sm"

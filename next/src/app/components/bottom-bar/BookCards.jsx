@@ -1,8 +1,8 @@
 import { BackgroundImage, Badge, Card, Group, Stack, Text, useMantineTheme } from "@mantine/core";
 import { Poppins } from "next/font/google";
-import { dark_theme } from "@/app/config/theme";
 import { cardShadows } from "@/app/utils/shadows";
 import { useRouter } from "next/navigation";
+import useTheme from "@/app/config/useTheme";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -12,6 +12,7 @@ const poppins = Poppins({
 });
 
 function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, toggle }) {
+  const [dark_theme] = useTheme();
   const router = useRouter();
 
   const blogIds = blogs.map((obj) => obj.$id).join("/");
@@ -32,7 +33,7 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
       p="xs"
       shadow="sm"
       radius="30"
-      bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : undefined}
+      bg={colorScheme !== "light" ? dark_theme.nav_link_dark_color : undefined}
     >
       <Group justify="flex-start" wrap="nowrap" gap="xs">
         <BackgroundImage
@@ -47,7 +48,7 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
           <Text
             w={200}
             truncate
-            c={colorScheme === "dark" ? dark_theme.main_text_color : "dark"}
+            c={colorScheme !== "light" ? dark_theme.main_text_color : "dark"}
             className={poppins.className}
             fw={600}
             size="sm"
@@ -58,14 +59,14 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
             <Text
               w={115}
               truncate
-              c={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.gray[8]}
+              c={colorScheme !== "light" ? dark_theme.secondary_text_color : theme.colors.gray[8]}
               className={poppins.className}
               size="xs"
             >
               By {author}
             </Text>
             <Badge
-              color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+              color={colorScheme !== "light" ? dark_theme.main_text_color : theme.colors.gray[6]}
               variant="light"
               fw={500}
               size="xs"

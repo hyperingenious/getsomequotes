@@ -13,6 +13,8 @@ import { cardShadows } from "../utils/shadows";
 import { DotsThreeVertical, Sparkle, Trash } from "@phosphor-icons/react";
 import { useMediaQuery } from "@mantine/hooks";
 import { Poppins } from "next/font/google";
+import useTheme from "../config/useTheme";
+// import { dark_theme } from "../config/useTheme";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -29,6 +31,7 @@ export default function BookList({
   setDeleteBookId,
   isGeneratingBook,
 }) {
+  const [dark_theme] = useTheme();
   const theme = useMantineTheme();
   const colorScheme = useComputedColorScheme();
   const smallSizeMath = useMediaQuery("(max-width:480px)");
@@ -37,7 +40,7 @@ export default function BookList({
       shadow={cardShadows.md}
       key={item.$id}
       w={"100%"}
-      bg={colorScheme === "dark" ? "#19243d" : theme.colors.gray[2]}
+      bg={colorScheme !== "light" ? dark_theme.nav_link_dark_color : theme.colors.gray[2]}
       mx={"md"}
       padding="sm"
       maw={480}
@@ -58,7 +61,7 @@ export default function BookList({
           />
           <Stack gap={0}>
             <Text
-              c={colorScheme === "dark" ? "#f1beb5" : theme.colors.dark[9]}
+              c={colorScheme !== "light" ? dark_theme.main_text_color : theme.colors.dark[9]}
               w={smallSizeMath ? 200 : 300}
               fw={400}
               className={poppins.className}
@@ -71,18 +74,22 @@ export default function BookList({
             <Text
               className={poppins.className}
               fw={500}
+              c={colorScheme !== "light" ? dark_theme.main_text_color : theme.colors.dark[9]}
               size="sm"
-              c={colorScheme === "dark" ? "rgba(241, 190, 181, 0.67)" : theme.colors.dark[2]}
               truncate={"end"}
             >
               By: {item?.author || "unkown"}
             </Text>
             <Group gap={"xs"} align="center">
-              <Text size="xs" c={colorScheme === "dark" ? "rgba(241, 190, 181, 0.67)" : theme.colors.dark[2]}>
+              <Text size="xs" c={colorScheme !== "light" ? dark_theme.main_text_color : theme.colors.dark[9]}>
                 Oct 28, 2024, {isGeneratingBook.bookId !== item.$id && `${item.blogs.length} Extracts`}
               </Text>
               {isGeneratingBook.isGenerating && isGeneratingBook.bookId === item.$id && (
-                <Loader color={"#f1beb5"} type="dots" size={"xs"} />
+                <Loader
+                  color={colorScheme !== "light" ? dark_theme.main_text_color : theme.colors.dark[9]}
+                  type="dots"
+                  size={"xs"}
+                />
               )}
             </Group>
           </Stack>
@@ -91,17 +98,17 @@ export default function BookList({
           <Menu
             styles={{
               dropdown: {
-                background: `${colorScheme === "dark" ? "#0f1523" : undefined}`,
+                background: `${colorScheme !== "light" ? dark_theme.app_bg_dark_color : undefined}`,
               },
             }}
             radius={"md"}
             width={150}
           >
             <Menu.Target>
-              <DotsThreeVertical color={colorScheme === "dark" ? "#f1beb5" : undefined} size={22} />
+              <DotsThreeVertical color={colorScheme !== "light" ? dark_theme.main_text_color : undefined} size={22} />
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Label c={colorScheme === "dark" ? "#f1beb5" : undefined} size={22}>
+              <Menu.Label c={colorScheme !== "light" ? dark_theme.main_text_color : undefined} size={22}>
                 Book Options
               </Menu.Label>
               <Menu.Item
@@ -109,8 +116,14 @@ export default function BookList({
                   setGenerateBookId(item.$id);
                   openGenerateBookModal();
                 }}
-                c={colorScheme === "dark" ? "#f1beb5" : undefined}
-                leftSection={<Sparkle color={colorScheme === "dark" ? "#f1beb5" : undefined} size={16} weight="fill" />}
+                c={colorScheme !== "light" ? dark_theme.main_text_color : undefined}
+                leftSection={
+                  <Sparkle
+                    color={colorScheme !== "light" ? dark_theme.main_text_color : undefined}
+                    size={16}
+                    weight="fill"
+                  />
+                }
               >
                 Generate
               </Menu.Item>

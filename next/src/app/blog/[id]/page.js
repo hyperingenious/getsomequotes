@@ -23,6 +23,7 @@ import { Afacad_Flux, Spectral } from "next/font/google";
 import SmallBlogCard from "@/app/components/SmallBlogCard";
 import TitleComponent from "@/app/components/TitleComponent";
 import { useUser } from "@clerk/clerk-react";
+import useTheme from "@/app/config/useTheme";
 
 const afacad_flux = Afacad_Flux({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -80,12 +81,13 @@ function ReadBlog() {
   const {
     user: { id: user_id },
   } = useUser();
+  const [dark_theme] = useTheme();
 
   const colorScheme = useComputedColorScheme();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["blog", blog_id],
-    queryFn: () => getBlogAndSuggestedBlogs(blog_id,user_id),
+    queryFn: () => getBlogAndSuggestedBlogs(blog_id, user_id),
   });
 
   const randomImage = allImages[Math.floor(Math.random() * allImages.length)];
@@ -93,7 +95,7 @@ function ReadBlog() {
   if (isLoading) {
     return (
       <Center maw={800} w={"100%"} ref={ref} h="100%">
-        <Loader color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9]} type="dots" />
+        <Loader color={colorScheme !== "light" ? dark_theme.main_text_color : theme.colors.gray[9]} type="dots" />
       </Center>
     );
   }
@@ -125,7 +127,7 @@ function ReadBlog() {
       <Stack gap={0}>
         {/* Book Badge */}
         <Badge
-          color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+          color={colorScheme !== "light" ? dark_theme.main_text_color : theme.colors.gray[6]}
           mt="md"
           variant="light"
           size="lg"
@@ -137,7 +139,7 @@ function ReadBlog() {
 
         {/* Author Name */}
         <Text
-          c={colorScheme === "dark" ? "#febeb5" : theme.colors.gray[6]}
+          c={colorScheme !== "light" ? dark_theme.main_text_color : theme.colors.gray[6]}
           ta="left"
           size="md"
           className={afacad_flux.className}

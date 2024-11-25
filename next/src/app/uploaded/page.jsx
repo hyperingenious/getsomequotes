@@ -29,9 +29,10 @@ import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import { cardShadows } from "../utils/shadows";
-import { dark_theme } from "../config/theme";
+import useTheme from "../config/useTheme";
 
 export default function Uploaded() {
+  const [dark_theme] = useTheme();
   const smallSizeMath = useMediaQuery("(max-width:480px)");
   const {
     user: { id },
@@ -126,7 +127,7 @@ export default function Uploaded() {
             maxWidth: "310px",
           },
           body: {
-            background: colorScheme === "dark" ? dark_theme.app_bg_dark_color : "white",
+            background: colorScheme !== "light" ? dark_theme.app_bg_dark_color : "white",
             paddingTop: "2rem",
             paddingLeft: "1.5rem",
             paddingRight: "1.5rem",
@@ -141,7 +142,7 @@ export default function Uploaded() {
         title="upload"
       >
         <Stack gap={"0"} miw={230}>
-          <Input.Wrapper c={colorScheme === "dark" ? dark_theme.secondary_text_color : "dark"} l label="Book Title">
+          <Input.Wrapper c={colorScheme !== "light" ? dark_theme.secondary_text_color : "dark"} l label="Book Title">
             <Input
               disabled={status === "pending"}
               radius={"md"}
@@ -152,7 +153,7 @@ export default function Uploaded() {
               placeholder="The Selfish Gene"
             />
           </Input.Wrapper>
-          <Input.Wrapper c={colorScheme === "dark" ? dark_theme.secondary_text_color : "dark"} label="Author Name">
+          <Input.Wrapper c={colorScheme !== "light" ? dark_theme.secondary_text_color : "dark"} label="Author Name">
             <Input
               disabled={status === "pending"}
               radius={"md"}
@@ -168,7 +169,7 @@ export default function Uploaded() {
         {book && (
           <Card
             shadow={cardShadows.md}
-            bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "#f1f3f5"}
+            bg={colorScheme !== "light" ? dark_theme.nav_link_dark_color : "#f1f3f5"}
             mt={"sm"}
             padding="xs"
             radius="xl"
@@ -228,8 +229,8 @@ export default function Uploaded() {
                 variant="light"
                 leftSection={<FileArrowUp size={18} />}
                 size="sm"
-                c={colorScheme === "dark" ? dark_theme.secondary_text_color : "black"}
-                bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.gray[2]}
+                c={colorScheme !== "light" ? dark_theme.secondary_text_color : "black"}
+                bg={colorScheme !== "light" ? dark_theme.nav_link_dark_color : theme.colors.gray[2]}
                 fullWidth
                 radius="md"
               >
@@ -249,10 +250,10 @@ export default function Uploaded() {
             size="sm"
             fullWidth
             fw={400}
-            c={colorScheme === "dark" ? dark_theme.main_text_color : "black"}
-            bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "black"}
+            c={colorScheme !== "light" ? dark_theme.main_text_color : "black"}
+            bg={colorScheme !== "light" ? dark_theme.nav_link_dark_color : "black"}
             radius="md"
-            loaderProps={{ type: "dots", color: colorScheme === "dark" ? dark_theme.secondary_text_color : "dark" }}
+            loaderProps={{ type: "dots", color: colorScheme !== "light" ? dark_theme.secondary_text_color : "dark" }}
             loading={status === "pending"}
             onClick={async () => {
               await postThePDF({
@@ -272,8 +273,8 @@ export default function Uploaded() {
         <Button
           leftSection={<Book size={16} />}
           onClick={open}
-          color={colorScheme === "dark" ? "#19243d" : theme.colors.gray[2]}
-          c={colorScheme === "dark" ? "#febeb5" : theme.colors.dark[9]}
+          color={colorScheme !== "light" ? dark_theme.card_bg_dark_color : theme.colors.gray[2]}
+          c={colorScheme !== "light" ? dark_theme.main_text_color : theme.colors.dark[9]}
           radius={"md"}
           fullWidth={smallSizeMath}
           mx={"md"}
