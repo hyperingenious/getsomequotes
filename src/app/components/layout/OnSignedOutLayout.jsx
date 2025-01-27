@@ -9,7 +9,7 @@ function OnSignedOutLayout({ children }) {
   const pathname = usePathname();
   return (
     <SignedOut>
-      {pathname.includes("shared/blogs/public") ? (
+      {pathname?.includes("shared/blogs/public") ? (
         <PublicAppShellLayout>{children}</PublicAppShellLayout>
       ) : (
         <NotSignedIn />
